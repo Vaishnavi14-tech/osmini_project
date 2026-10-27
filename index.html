@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Railway Reservation System — OS Algorithm Visualizer</title>
+  <meta name="description" content="College Mini-Project by Vaishnavi Satone (UID: 24003164): Demonstrating CPU Scheduling, Producer-Consumer, Banker's Algorithm, and Memory Management in Railway Reservation Systems.">
+  <meta name="author" content="Vaishnavi Satone">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/modules.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="brand-section">
+      <div class="brand-logo-icon">🚄</div>
+      <div class="brand-text-group">
+        <span class="brand-title">RailOS Visualizer</span>
+        <span class="brand-subtitle">Railway Reservation &bull; OS Concepts</span>
+      </div>
+    </div>
+
+    <!-- Center Student Info Badge -->
+    <div class="topbar-center">
+      <div class="student-badge-card" title="Student & Academic Details">
+        <div class="student-avatar">VS</div>
+        <div class="student-details">
+          <span class="student-name">Vaishnavi Satone</span>
+          <span class="student-meta">UID: 24003164 &bull; CE 5th Sem (B)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topbar Action Controls -->
+    <div class="topbar-actions">
+      <button class="btn btn-viva-demo" onclick="window.guidedDemo.start()" title="Start guided teacher presentation walkthrough">
+        🎯 Guided Demo (Viva Mode)
+      </button>
+
+      <button class="btn btn-sm btn-outline" id="theme-toggle-btn" title="Toggle Light and Dark Mode">
+        ☀️ Light Mode
+      </button>
+
+      <button class="btn btn-sm btn-outline" id="audio-toggle-btn" title="Toggle Synthesized Audio Feedback">
+        🔊 Sound: ON
+      </button>
+    </div>
+  </header>
+
+  <div class="app-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div>
+        <div class="nav-group-title">Main Navigation</div>
+        <ul class="nav-list">
+          <li>
+            <a href="#home" class="nav-link active" data-tab="home">
+              <span class="nav-icon">🏠</span>
+              <span>Home Dashboard</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-group-title">OS Modules (Railway Lab)</div>
+        <ul class="nav-list">
+          <li>
+            <a href="#cpu" class="nav-link" data-tab="cpu">
+              <span class="nav-icon">⚡</span>
+              <span>1. CPU Scheduling</span>
+            </a>
+          </li>
+          <li>
+            <a href="#pc" class="nav-link" data-tab="pc">
+              <span class="nav-icon">🔄</span>
+              <span>2. Producer–Consumer</span>
+            </a>
+          </li>
+          <li>
+            <a href="#banker" class="nav-link" data-tab="banker">
+              <span class="nav-icon">🛡️</span>
+              <span>3. Banker’s Algorithm</span>
+            </a>
+          </li>
+          <li>
+            <a href="#memory" class="nav-link" data-tab="memory">
+              <span class="nav-icon">💾</span>
+              <span>4. Memory Management</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-group-title">Verification & Viva</div>
+        <ul class="nav-list">
+          <li>
+            <a href="#tests" class="nav-link" data-tab="tests">
+              <span class="nav-icon">🧪</span>
+              <span>Test Suite & Results</span>
+            </a>
+          </li>
+          <li>
+            <a href="#viva" class="nav-link" data-tab="viva">
+              <span class="nav-icon">🎓</span>
+              <span>Teacher's Viva Guide</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="college-badge">
+          <strong>Operating Systems Mini-Project</strong>
+          Computer Engineering &bull; 5th Sem (B)<br>
+          <span style="color: var(--color-teal); font-weight: 700;">Vaishnavi Satone &bull; 24003164</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Viewport -->
+    <main class="main-viewport">
+
+      <!-- ==========================================
+           TAB 1: HOME DASHBOARD
+           ========================================== -->
+      <section id="tab-home" class="tab-section active">
+        <!-- Hero Overview Banner -->
+        <div class="hero-banner">
+          <div class="disclaimer-banner">
+            <span>⚠️ Educational Simulation Notice:</span>
+            <span>This is an educational simulation of Operating Systems algorithms mapped to railway booking concepts.</span>
+          </div>
+
+          <h1 class="hero-title">Railway Reservation System</h1>
+          <p class="hero-subtitle">
+            <em>Understanding how Operating Systems manage booking requests, processing, resources, and memory.</em>
+          </p>
+
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn btn-teal" onclick="window.guidedDemo.start()">
+              🎯 Start Teacher Demo Tour
+            </button>
+            <button class="btn btn-outline" onclick="window.app.switchTab('cpu')">
+              ⚡ Explore CPU Scheduling
+            </button>
+            <button class="btn btn-outline" onclick="window.app.switchTab('tests')">
+              🧪 Run Test Suite
+            </button>
+          </div>
+        </div>
+
+        <!-- Railway Reservation Workflow -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🚂 Railway Reservation Lifecycle &bull; OS Mapping Pipeline</span>
+            <span class="badge badge-primary">Interactive Overview</span>
+          </div>
+          <p style="margin-bottom: 1.25rem;">
+            Click on any phase of the passenger ticket lifecycle below to jump directly to the underlying Operating Systems algorithm responsible for that operation:
+          </p>
+
+          <div class="workflow-pipeline">
+            <div class="workflow-node" onclick="window.app.switchTab('cpu')" style="cursor: pointer;" title="Click to open CPU Scheduling">
+              <div class="workflow-node-icon">🔍</div>
+              <span class="workflow-node-title">1. Search Train</span>
+              <span class="workflow-node-os">CPU Scheduling (P1)</span>
+            </div>
+
+            <span class="workflow-arrow">➔</span>
+
+            <div class="workflow-node" onclick="window.app.switchTab('cpu')" style="cursor: pointer;" title="Click to open CPU Scheduling">
+              <div class="workflow-node-icon">💺</div>
+              <span class="workflow-node-title">2. Check Seats</span>
+              <span class="workflow-node-os">CPU Scheduling (P2)</span>
+            </div>
+
+            <span class="workflow-arrow">➔</span>
+
+            <div class="workflow-node" onclick="window.app.switchTab('pc')" style="cursor: pointer;" title="Click to open Producer-Consumer">
+              <div class="workflow-node-icon">🎫</div>
+              <span class="workflow-node-title">3. Book Ticket</span>
+              <span class="workflow-node-os">Producer–Consumer</span>
+            </div>
+
+            <span class="workflow-arrow">➔</span>
+
+            <div class="workflow-node" onclick="window.app.switchTab('banker')" style="cursor: pointer;" title="Click to open Banker's Algorithm">
+              <div class="workflow-node-icon">💳</div>
+              <span class="workflow-node-title">4. Process Payment</span>
+              <span class="workflow-node-os">Banker's Algorithm</span>
+            </div>
+
+            <span class="workflow-arrow">➔</span>
+
+            <div class="workflow-node" onclick="window.app.switchTab('memory')" style="cursor: pointer;" title="Click to open Memory Management">
+              <div class="workflow-node-icon">🎟️</div>
+              <span class="workflow-node-title">5. Confirm Ticket</span>
+              <span class="workflow-node-os">Memory Allocation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Large Interactive Module Cards -->
+        <h3 style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>📦 Four Operating Systems Laboratories</span>
+          <span style="font-size: 0.85rem; font-weight: normal; color: var(--text-muted);">(Click any card to explore)</span>
+        </h3>
+
+        <div class="module-cards-grid">
+          <!-- Card 1: CPU Scheduling -->
+          <div class="module-card">
+            <div>
+              <div class="module-card-icon-box icon-cpu">⚡</div>
+              <h4 class="module-card-title">CPU Scheduling</h4>
+              <div class="module-card-tagline">Which task gets CPU time, and when?</div>
+              <div class="module-card-example">
+                <strong>Railway Analogy:</strong> Handling Tatkal rush — prioritizing payment gateway processes (VIP) over train searching and allocating fair Round Robin time slices.
+              </div>
+              <div class="module-card-preview">
+                <div style="display: flex; width: 100%; height: 16px; border-radius: 4px; overflow: hidden;">
+                  <div style="flex: 3; background: #3a86ff;"></div>
+                  <div style="flex: 2; background: #06d6a0;"></div>
+                  <div style="flex: 4; background: #ffbe0b;"></div>
+                  <div style="flex: 2; background: #ef476f;"></div>
+                </div>
+              </div>
+              <div class="module-card-learn">
+                <strong>What you'll learn:</strong> Animated Gantt charts, Turnaround Time, Waiting Time, Time Quantum effects, and Preemptive vs Non-Preemptive policies.
+              </div>
+            </div>
+            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="window.app.switchTab('cpu')">
+              Explore CPU Scheduling →
+            </button>
+          </div>
+
+          <!-- Card 2: Producer-Consumer -->
+          <div class="module-card">
+            <div>
+              <div class="module-card-icon-box icon-pc">🔄</div>
+              <h4 class="module-card-title">Producer–Consumer</h4>
+              <div class="module-card-tagline">How do booking requests queue and process safely?</div>
+              <div class="module-card-example">
+                <strong>Railway Analogy:</strong> Passengers (Producers) submitting booking requests into IRCTC's bounded buffer queue, processed by reservation engines (Consumers) without race conditions.
+              </div>
+              <div class="module-card-preview">
+                <div style="display: flex; gap: 4px; align-items: center;">
+                  <span style="font-size: 0.75rem; color: var(--color-teal); font-family: var(--font-mono);">[BK-101] ➔ [BK-102] ➔ [BK-103]</span>
+                </div>
+              </div>
+              <div class="module-card-learn">
+                <strong>What you'll learn:</strong> Mutex binary locking, Empty & Full semaphore coordination, preventing race conditions like double berth booking.
+              </div>
+            </div>
+            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="window.app.switchTab('pc')">
+              Explore Producer–Consumer →
+            </button>
+          </div>
+
+          <!-- Card 3: Banker's Algorithm -->
+          <div class="module-card">
+            <div>
+              <div class="module-card-icon-box icon-banker">🛡️</div>
+              <h4 class="module-card-title">Banker’s Algorithm</h4>
+              <div class="module-card-tagline">Can the system allocate resources safely without deadlock?</div>
+              <div class="module-card-example">
+                <strong>Railway Analogy:</strong> Allocating limited Booking Server Slots, Payment Gateways, and SMS Dispatchers safely so circular wait never locks the reservation system.
+              </div>
+              <div class="module-card-preview">
+                <span class="badge badge-success">Safe Sequence: P1 ➔ P3 ➔ P4 ➔ P0 ➔ P2</span>
+              </div>
+              <div class="module-card-learn">
+                <strong>What you'll learn:</strong> Need Matrix = Maximum − Allocation, Available vector, Safe vs Unsafe State detection, and deadlock avoidance.
+              </div>
+            </div>
+            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="window.app.switchTab('banker')">
+              Explore Banker’s Algorithm →
+            </button>
+          </div>
+
+          <!-- Card 4: Memory Management -->
+          <div class="module-card">
+            <div>
+              <div class="module-card-icon-box icon-memory">💾</div>
+              <h4 class="module-card-title">Memory Management</h4>
+              <div class="module-card-tagline">Where should each task be placed in available memory?</div>
+              <div class="module-card-example">
+                <strong>Railway Analogy:</strong> Placing passenger services (Seat Layout Cache, PNR Lookup Index, Payment Tokens, Ticket PDF Generator) into server RAM partitions.
+              </div>
+              <div class="module-card-preview">
+                <div style="display: flex; gap: 4px; width: 100%; height: 16px;">
+                  <div style="flex: 2; background: #3a86ff; border-radius: 2px;"></div>
+                  <div style="flex: 4; background: #06d6a0; border-radius: 2px;"></div>
+                  <div style="flex: 1; background: #ffbe0b; border-radius: 2px;"></div>
+                  <div style="flex: 3; background: rgba(255,255,255,0.1); border-radius: 2px;"></div>
+                </div>
+              </div>
+              <div class="module-card-learn">
+                <strong>What you'll learn:</strong> First Fit vs Best Fit allocation, internal & external fragmentation, server memory utilization efficiency.
+              </div>
+            </div>
+            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="window.app.switchTab('memory')">
+              Explore Memory Management →
+            </button>
+          </div>
+        </div>
+
+        <!-- Visual Connection Diagram -->
+        <div class="connection-flow-section">
+          <h3 class="connection-flow-title">Holistic Operating System Architecture in Railway Reservation</h3>
+          <p class="connection-flow-desc">
+            Each of the four modules represents a critical layer of the operating system collaborating in real time to process a passenger's railway reservation safely, concurrently, and efficiently:
+          </p>
+
+          <div class="connection-diagram">
+            <div class="conn-step">
+              <span class="conn-step-num">Step 1</span>
+              <div class="conn-step-name">Synchronization</div>
+              <div class="conn-step-sub">Producer-Consumer queue buffers incoming passenger booking requests without race conditions.</div>
+            </div>
+
+            <span class="conn-arrow">➔</span>
+
+            <div class="conn-step">
+              <span class="conn-step-num">Step 2</span>
+              <div class="conn-step-name">CPU Scheduling</div>
+              <div class="conn-step-sub">CPU scheduler assigns CPU burst times fairly to train search and seat check operations.</div>
+            </div>
+
+            <span class="conn-arrow">➔</span>
+
+            <div class="conn-step">
+              <span class="conn-step-num">Step 3</span>
+              <div class="conn-step-name">Deadlock Avoidance</div>
+              <div class="conn-step-sub">Banker's Algorithm ensures banking gateways and booking locks stay in a safe state.</div>
+            </div>
+
+            <span class="conn-arrow">➔</span>
+
+            <div class="conn-step">
+              <span class="conn-step-num">Step 4</span>
+              <div class="conn-step-name">Memory Allocation</div>
+              <div class="conn-step-sub">Memory manager loads ticket rendering engines and PNR caches into server RAM blocks.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 2: MODULE 1 — CPU SCHEDULING
+           ========================================== -->
+      <section id="tab-cpu" class="tab-section">
+        <div class="module-header">
+          <div class="module-title-group">
+            <div class="module-badge-row">
+              <span class="badge badge-primary">Module One</span>
+              <span class="badge badge-teal">Core OS Concept</span>
+            </div>
+            <h2 class="module-title">CPU Scheduling Laboratory</h2>
+            <p class="module-subtitle">
+              “CPU Scheduling decides which process gets the CPU and how long it executes.”
+            </p>
+          </div>
+
+          <div class="module-header-actions">
+            <button class="btn btn-outline btn-sm" onclick="window.app.showExplainModal('cpu')">
+              📖 Explain This Module
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="window.app.showTeacherGuideModal('cpu')">
+              🎓 How to Explain to My Teacher
+            </button>
+          </div>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+          <div class="controls-left">
+            <div class="control-group">
+              <label for="cpu-algo-select">Algorithm:</label>
+              <select id="cpu-algo-select">
+                <option value="rr">Round Robin (RR)</option>
+                <option value="priority_non_preempt">Priority Scheduling (Non-Preemptive)</option>
+                <option value="priority_preempt">Priority Scheduling (Preemptive)</option>
+              </select>
+            </div>
+
+            <div class="control-group" id="cpu-tq-group">
+              <label for="cpu-tq-input">Time Quantum:</label>
+              <input type="number" id="cpu-tq-input" min="1" max="10" value="2" class="input-inline-num">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">ms</span>
+            </div>
+          </div>
+
+          <div class="controls-right">
+            <button class="btn btn-primary btn-sm" id="cpu-play-btn" onclick="window.app.playCPUSimulation()">
+              ▶ Play Simulation
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="window.app.stepCPUForward()">
+              ⏭ Step Forward
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="window.app.resetCPUSimulation()">
+              🔄 Reset
+            </button>
+
+            <!-- Sample Task Presets -->
+            <select onchange="window.cpuScheduler.loadSampleTasks(this.value); window.app.renderCPU();" style="font-size: 0.85rem;">
+              <option value="default">📋 Default Railway Tasks</option>
+              <option value="tatkal">⚡ Tatkal Rush Scenario</option>
+              <option value="equal_arrival">🎯 Equal Arrival (AT = 0)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Process Input Table Card -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📝 Railway Reservation Process Input Table</span>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <span class="badge badge-warning">Priority 1 = Highest (VIP/Payment)</span>
+              <button class="btn btn-teal btn-sm" onclick="window.cpuScheduler.addProcess(); window.app.renderCPU();">
+                ➕ Add Task
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">PID</th>
+                  <th>Railway Task Name</th>
+                  <th style="width: 110px;">Arrival (AT)</th>
+                  <th style="width: 110px;">Burst (BT)</th>
+                  <th style="width: 110px;">Priority</th>
+                  <th style="width: 80px;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="cpu-process-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Main Visual: Animated Gantt Chart -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📊 Animated Execution Gantt Chart</span>
+            <span class="badge badge-teal">Live CPU Timeline</span>
+          </div>
+
+          <div class="gantt-container" id="cpu-gantt-timeline">
+            <!-- Dynamically rendered -->
+          </div>
+
+          <!-- Step Info & Ready Queue Box -->
+          <div id="cpu-step-info-box">
+            <!-- Step snapshot rendered here -->
+          </div>
+        </div>
+
+        <!-- Calculated Results Section -->
+        <div class="card" id="cpu-results-section">
+          <div class="card-header">
+            <span class="card-title">📈 Scheduling Performance Metrics & Calculations</span>
+            <span class="badge badge-primary">Mathematical Verification</span>
+          </div>
+
+          <!-- Summary Metric Cards -->
+          <div class="stats-summary-grid">
+            <div class="stat-metric-card">
+              <span class="stat-metric-label">Average Turnaround Time (Avg TAT)</span>
+              <span class="stat-metric-val" id="cpu-avg-tat">0.00 ms</span>
+              <small style="color: var(--text-muted); margin-top: 0.25rem;">TAT = Completion − Arrival</small>
+            </div>
+
+            <div class="stat-metric-card">
+              <span class="stat-metric-label">Average Waiting Time (Avg WT)</span>
+              <span class="stat-metric-val" id="cpu-avg-wt">0.00 ms</span>
+              <small style="color: var(--text-muted); margin-top: 0.25rem;">WT = Turnaround − Burst</small>
+            </div>
+          </div>
+
+          <div class="table-responsive" style="margin-bottom: 1.5rem;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>PID</th>
+                  <th>Railway Task</th>
+                  <th>Arrival Time (AT)</th>
+                  <th>Burst Time (BT)</th>
+                  <th>Priority</th>
+                  <th>Completion (CT)</th>
+                  <th>Turnaround (TAT)</th>
+                  <th>Waiting Time (WT)</th>
+                </tr>
+              </thead>
+              <tbody id="cpu-results-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Comparative Bar Chart of Waiting Times -->
+          <h4 style="margin-bottom: 0.5rem; font-size: 0.95rem;">📊 Comparative Waiting Time per Task</h4>
+          <div class="wt-chart-container" id="cpu-wt-chart">
+            <!-- Dynamically populated bars -->
+          </div>
+        </div>
+
+        <!-- Understand This Result Section (Bilingual) -->
+        <div class="card">
+          <div class="bilingual-switcher-row">
+            <span class="card-title">💡 Understand This Result</span>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="lang-btn active" data-lang="en" onclick="window.app.setLanguage('en')">English</button>
+              <button class="lang-btn" data-lang="hi" onclick="window.app.setLanguage('hi')">Hinglish</button>
+            </div>
+          </div>
+
+          <div id="cpu-explanation-content">
+            <!-- Dynamically populated based on active results -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 3: MODULE 2 — PRODUCER-CONSUMER
+           ========================================== -->
+      <section id="tab-pc" class="tab-section">
+        <div class="module-header">
+          <div class="module-title-group">
+            <div class="module-badge-row">
+              <span class="badge badge-primary">Module Two</span>
+              <span class="badge badge-teal">Synchronization & Semaphores</span>
+            </div>
+            <h2 class="module-title">Producer–Consumer Synchronization Laboratory</h2>
+            <p class="module-subtitle">
+              “How do booking requests wait in a queue and get processed safely without race conditions?”
+            </p>
+          </div>
+
+          <div class="module-header-actions">
+            <button class="btn btn-outline btn-sm" onclick="window.app.showExplainModal('pc')">
+              📖 Explain This Module
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="window.app.showTeacherGuideModal('pc')">
+              🎓 How to Explain to My Teacher
+            </button>
+          </div>
+        </div>
+
+        <!-- Semaphores & Buffer Interactive Workspace -->
+        <div class="pc-workspace">
+          <!-- Left: Producer Console (Passenger App) -->
+          <div class="worker-console">
+            <div class="worker-avatar">📱</div>
+            <h4 class="worker-title">Producer Thread</h4>
+            <div class="worker-role-desc">IRCTC Passenger App / Web Portal</div>
+            <div id="pc-producer-state" class="worker-state-tag state-idle">IDLE</div>
+            <p id="pc-producer-reason" class="worker-reason">Ready to submit a new ticket request.</p>
+
+            <button class="btn btn-teal" style="width: 100%;" onclick="window.producerConsumer.produce(); window.app.renderPC();">
+              ➕ Add Booking (Produce)
+            </button>
+          </div>
+
+          <!-- Center: Bounded Buffer Queue & Semaphores -->
+          <div class="buffer-center-console">
+            <!-- Semaphores Dashboard -->
+            <div class="semaphores-dashboard">
+              <div class="sem-card">
+                <div class="sem-label">Mutex Semaphore</div>
+                <div class="sem-val" id="pc-mutex-val">1</div>
+                <small style="color: var(--text-muted);">Binary Lock (0 or 1)</small>
+              </div>
+
+              <div class="sem-card">
+                <div class="sem-label">Empty Semaphore</div>
+                <div class="sem-val" id="pc-empty-val" style="color: var(--color-cyan);">5 / 5</div>
+                <small style="color: var(--text-muted);">Available Free Slots</small>
+              </div>
+
+              <div class="sem-card">
+                <div class="sem-label">Full Semaphore</div>
+                <div class="sem-val" id="pc-full-val" style="color: var(--color-amber);">0 / 5</div>
+                <small style="color: var(--text-muted);">Occupied Bookings</small>
+              </div>
+            </div>
+
+            <!-- Buffer Capacity Controller -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+              <span style="font-size: 0.9rem; font-weight: 700;">🚃 Shared Reservation Bounded Buffer</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+                <label for="pc-capacity-input">Buffer Capacity:</label>
+                <input type="number" id="pc-capacity-input" min="3" max="10" value="5" class="input-inline-num" onchange="window.producerConsumer.setCapacity(this.value); window.app.renderPC();">
+              </div>
+            </div>
+
+            <!-- Visual Slots Container -->
+            <div class="buffer-slots-container" id="pc-buffer-slots">
+              <!-- Dynamically populated booking cards -->
+            </div>
+
+            <!-- Global Action Controls -->
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; justify-content: center; flex-wrap: wrap;">
+              <button class="btn btn-outline btn-sm" id="pc-auto-btn" onclick="window.producerConsumer.toggleAutoRun(); window.app.renderPC();">
+                ⚡ Auto-Run Simulation
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="window.producerConsumer.reset(); window.app.renderPC();">
+                🔄 Reset Queue
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Consumer Console (IRCTC Backend Server) -->
+          <div class="worker-console">
+            <div class="worker-avatar">🖥️</div>
+            <h4 class="worker-title">Consumer Thread</h4>
+            <div class="worker-role-desc">IRCTC Booking Engine & PNR Allocator</div>
+            <div id="pc-consumer-state" class="worker-state-tag state-idle">IDLE</div>
+            <p id="pc-consumer-reason" class="worker-reason">Ready to read and confirm booking.</p>
+
+            <button class="btn btn-primary" style="width: 100%;" onclick="window.producerConsumer.consume(); window.app.renderPC();">
+              🎟️ Process Booking (Consume)
+            </button>
+          </div>
+        </div>
+
+        <!-- Real-time Activity Log -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📜 Synchronization Activity Log & Semaphore Transitions</span>
+            <span class="badge badge-primary">Thread Safe Log</span>
+          </div>
+          <div class="pc-activity-log" id="pc-log-list">
+            <!-- Dynamically populated logs -->
+          </div>
+        </div>
+
+        <!-- Why Is Synchronization Needed? Panel -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🛡️ Why Is Synchronization Needed in Railway Reservations?</span>
+          </div>
+          <p style="margin-bottom: 0.75rem;">
+            Imagine thousands of passengers clicking “Confirm Booking” at 10:00:01 AM during the Tatkal window:
+          </p>
+          <ul style="padding-left: 1.5rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem;">
+            <li><strong>Race Conditions:</strong> If two threads update the seat counter simultaneously without a Mutex lock, both can read <code>AvailableSeats = 1</code> and assign the same berth to two different passengers, causing a duplicate booking disaster.</li>
+            <li><strong>Buffer Overflow:</strong> If producers keep sending requests faster than backend payment servers can process them without checking <code>wait(empty)</code>, the buffer array overflows, leading to crashed services.</li>
+            <li><strong>Buffer Underflow:</strong> If consumer threads keep polling an empty queue without <code>wait(full)</code>, they burn 100% CPU in busy waiting.</li>
+          </ul>
+        </div>
+
+        <!-- Understand This Module (Bilingual) -->
+        <div class="card">
+          <div class="bilingual-switcher-row">
+            <span class="card-title">💡 Understand Synchronization</span>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="lang-btn active" data-lang="en" onclick="window.app.setLanguage('en')">English</button>
+              <button class="lang-btn" data-lang="hi" onclick="window.app.setLanguage('hi')">Hinglish</button>
+            </div>
+          </div>
+
+          <div id="pc-explanation-content">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 4: MODULE 3 — BANKER'S ALGORITHM
+           ========================================== -->
+      <section id="tab-banker" class="tab-section">
+        <div class="module-header">
+          <div class="module-title-group">
+            <div class="module-badge-row">
+              <span class="badge badge-primary">Module Three</span>
+              <span class="badge badge-teal">Deadlock Avoidance</span>
+            </div>
+            <h2 class="module-title">Banker’s Algorithm — Safe Resource Allocation</h2>
+            <p class="module-subtitle">
+              “This algorithm checks whether resources can be allocated while keeping the system in a safe state.”
+            </p>
+          </div>
+
+          <div class="module-header-actions">
+            <button class="btn btn-outline btn-sm" onclick="window.app.showExplainModal('banker')">
+              📖 Explain This Module
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="window.app.showTeacherGuideModal('banker')">
+              🎓 How to Explain to My Teacher
+            </button>
+          </div>
+        </div>
+
+        <!-- Available Resources Vector Cards -->
+        <h4 style="margin-bottom: 0.75rem;">📦 Finite Railway System Resources (Available Vector):</h4>
+        <div class="banker-resource-cards" id="banker-avail-cards">
+          <!-- Dynamically populated R1, R2, R3 cards -->
+        </div>
+
+        <!-- Action Controls Bar -->
+        <div class="controls-bar">
+          <div class="controls-left">
+            <button class="btn btn-teal btn-sm" onclick="window.bankersAlgorithm.checkSafety(); window.app.renderBanker();">
+              🔍 Check Safe State (Instant)
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="window.bankersAlgorithm.stepForward(); window.app.renderBanker();">
+              👣 Run Step-by-Step
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="window.bankersAlgorithm.calculateNeed(); window.app.renderBanker();">
+              🧮 Calculate Need Matrix
+            </button>
+          </div>
+
+          <div class="controls-right">
+            <button class="btn btn-outline btn-sm" onclick="window.bankersAlgorithm.loadPreset('safe'); window.bankersAlgorithm.checkSafety(); window.app.renderBanker();">
+              🛡️ Load Safe Example
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="window.bankersAlgorithm.loadPreset('unsafe'); window.bankersAlgorithm.checkSafety(); window.app.renderBanker();">
+              ⚠️ Load Unsafe Example
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="window.bankersAlgorithm.resetStepState(); window.app.renderBanker();">
+              🔄 Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Safety Status & Safe Sequence Banner -->
+        <div id="banker-safety-status-box" class="safety-banner banner-neutral">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Step-by-Step Trace Card -->
+        <div id="banker-step-trace-box">
+          <!-- Step trace rendered here -->
+        </div>
+
+        <!-- Editable Matrices Card -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📊 Resource Allocation, Maximum Claim & Calculated Need Matrices</span>
+            <span class="badge badge-primary">Formula: Need = Maximum − Allocation</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Railway Process</th>
+                  <th colspan="3" style="text-align: center;">Allocation Matrix</th>
+                  <th colspan="3" style="text-align: center;" class="col-divider-left">Maximum Matrix</th>
+                  <th colspan="3" style="text-align: center;" class="col-divider-left">Need Matrix (Calculated)</th>
+                </tr>
+                <tr>
+                  <!-- Allocation -->
+                  <th style="width: 60px;">R1</th>
+                  <th style="width: 60px;">R2</th>
+                  <th style="width: 60px;">R3</th>
+                  <!-- Maximum -->
+                  <th style="width: 60px;" class="col-divider-left">R1</th>
+                  <th style="width: 60px;">R2</th>
+                  <th style="width: 60px;">R3</th>
+                  <!-- Need -->
+                  <th style="width: 60px;" class="col-divider-left">R1</th>
+                  <th style="width: 60px;">R2</th>
+                  <th style="width: 60px;">R3</th>
+                </tr>
+              </thead>
+              <tbody id="banker-matrix-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Why Does This Matter? Panel -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🔍 Why Does Banker's Algorithm Matter in Railway Systems?</span>
+          </div>
+          <p style="margin-bottom: 0.75rem;">
+            In high-traffic reservation systems, deadlocks occur when processes lock resources and wait circularly on each other:
+          </p>
+          <ul style="padding-left: 1.5rem; line-height: 1.7; color: var(--text-secondary);">
+            <li><strong>The Deadlock Scenario:</strong> Process P1 holds Payment Gateway (R2) and waits for Booking Thread (R1). Meanwhile, Process P2 holds Booking Thread (R1) and waits for Payment Gateway (R2). Neither can proceed, and both hang indefinitely!</li>
+            <li><strong>The Banker's Solution:</strong> The OS never blindly grants a resource request. It simulates: <em>"If I grant this request right now, does a valid execution sequence still exist that allows all remaining processes to finish?"</em> If yes, resources are allocated; if no, the process must wait.</li>
+            <li><strong>Unsafe State ≠ Deadlock:</strong> An unsafe state simply means the system has entered a danger zone where deadlock is possible if all tasks claim their worst-case maximum requirements simultaneously.</li>
+          </ul>
+        </div>
+
+        <!-- Understand Banker's Algorithm (Bilingual) -->
+        <div class="card">
+          <div class="bilingual-switcher-row">
+            <span class="card-title">💡 Understand Banker's Algorithm</span>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="lang-btn active" data-lang="en" onclick="window.app.setLanguage('en')">English</button>
+              <button class="lang-btn" data-lang="hi" onclick="window.app.setLanguage('hi')">Hinglish</button>
+            </div>
+          </div>
+
+          <div id="banker-explanation-content">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 5: MODULE 4 — MEMORY MANAGEMENT
+           ========================================== -->
+      <section id="tab-memory" class="tab-section">
+        <div class="module-header">
+          <div class="module-title-group">
+            <div class="module-badge-row">
+              <span class="badge badge-primary">Module Four</span>
+              <span class="badge badge-teal">Contiguous Partition Allocation</span>
+            </div>
+            <h2 class="module-title">Memory Management — First Fit and Best Fit</h2>
+            <p class="module-subtitle">
+              “Memory Management shows how available memory space can be assigned to processes.”
+            </p>
+          </div>
+
+          <div class="module-header-actions">
+            <button class="btn btn-outline btn-sm" onclick="window.app.showExplainModal('memory')">
+              📖 Explain This Module
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="window.app.showTeacherGuideModal('memory')">
+              🎓 How to Explain to My Teacher
+            </button>
+          </div>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+          <div class="controls-left">
+            <div class="control-group">
+              <label for="mm-algo-select">Allocation Algorithm:</label>
+              <select id="mm-algo-select">
+                <option value="first_fit">First Fit (First suitable block)</option>
+                <option value="best_fit">Best Fit (Smallest suitable block)</option>
+              </select>
+            </div>
+
+            <button class="btn btn-teal btn-sm" onclick="window.memoryManagement.runAllocation(); window.app.renderMemory();">
+              ▶ Run Allocation
+            </button>
+          </div>
+
+          <div class="controls-right">
+            <button class="btn btn-outline btn-sm" onclick="window.memoryManagement.loadPreset('default'); window.app.renderMemory();">
+              📋 Standard Server Memory
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="window.memoryManagement.loadPreset('tatkal_heavy'); window.app.renderMemory();">
+              ⚡ Heavy Load Preset
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="window.memoryManagement.runAllocation(); window.app.renderMemory();">
+              🔄 Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Metric Cards -->
+        <div class="stats-summary-grid">
+          <div class="stat-metric-card">
+            <span class="stat-metric-label">Total Server RAM</span>
+            <span class="stat-metric-val" id="mm-stat-total">0 KB</span>
+          </div>
+
+          <div class="stat-metric-card">
+            <span class="stat-metric-label">Allocated Memory</span>
+            <span class="stat-metric-val" id="mm-stat-allocated" style="color: var(--color-cyan);">0 KB</span>
+          </div>
+
+          <div class="stat-metric-card">
+            <span class="stat-metric-label">Free Space Remaining</span>
+            <span class="stat-metric-val" id="mm-stat-free" style="color: var(--color-amber);">0 KB</span>
+          </div>
+
+          <div class="stat-metric-card">
+            <span class="stat-metric-label">RAM Utilization</span>
+            <span class="stat-metric-val" id="mm-stat-util">0%</span>
+            <div class="util-progress-track">
+              <div class="util-progress-bar" id="mm-util-bar"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Visual: Memory Blocks Map -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🖥️ Server Memory Partitions (Visual Allocation Map)</span>
+            <div style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.8rem;">
+              <span style="display: flex; align-items: center; gap: 0.35rem;"><span style="width: 12px; height: 12px; background: #3a86ff; border-radius: 2px;"></span> Allocated Task</span>
+              <span style="display: flex; align-items: center; gap: 0.35rem;"><span style="width: 12px; height: 12px; background: repeating-linear-gradient(45deg, #444, #444 2px, transparent 2px, transparent 4px); border-radius: 2px;"></span> Free Hole</span>
+            </div>
+          </div>
+
+          <div id="mm-unallocated-box" style="display: none; margin-bottom: 1rem;"></div>
+
+          <div id="mm-blocks-visual-map">
+            <!-- Dynamically populated memory blocks -->
+          </div>
+        </div>
+
+        <!-- Side-by-Side First Fit vs Best Fit Comparison -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">⚖️ First Fit vs Best Fit Direct Comparison</span>
+            <span class="badge badge-teal">Algorithmic Trade-off Analysis</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Performance Metric</th>
+                  <th>First Fit Strategy</th>
+                  <th>Best Fit Strategy</th>
+                </tr>
+              </thead>
+              <tbody id="mm-comparison-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Editable Tables Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+          <!-- Memory Blocks Table -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🧱 Memory Blocks (Partitions)</span>
+              <button class="btn btn-teal btn-sm" onclick="window.memoryManagement.addBlock(); window.app.renderMemory();">
+                ➕ Add Block
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th>Partition Label</th>
+                    <th style="width: 100px;">Size (KB)</th>
+                    <th style="width: 60px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="mm-blocks-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Processes Table -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">⚙️ Railway Tasks Needing Memory</span>
+              <button class="btn btn-teal btn-sm" onclick="window.memoryManagement.addProcess(); window.app.renderMemory();">
+                ➕ Add Task
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">PID</th>
+                    <th>Railway Service</th>
+                    <th style="width: 100px;">Size (KB)</th>
+                    <th style="width: 60px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="mm-proc-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Understand Memory Allocation (Bilingual) -->
+        <div class="card">
+          <div class="bilingual-switcher-row">
+            <span class="card-title">💡 Understand Memory Allocation</span>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="lang-btn active" data-lang="en" onclick="window.app.setLanguage('en')">English</button>
+              <button class="lang-btn" data-lang="hi" onclick="window.app.setLanguage('hi')">Hinglish</button>
+            </div>
+          </div>
+
+          <div id="mm-explanation-content">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 6: TEST SUITE & RESULTS
+           ========================================== -->
+      <section id="tab-tests" class="tab-section">
+        <div class="module-header">
+          <div class="module-title-group">
+            <div class="module-badge-row">
+              <span class="badge badge-primary">Verification Suite</span>
+              <span class="badge badge-teal">Automated Testing</span>
+            </div>
+            <h2 class="module-title">Test Cases & Verification Screen</h2>
+            <p class="module-subtitle">
+              Verify mathematical correctness, semaphore capacity rules, and edge cases across all four modules.
+            </p>
+          </div>
+
+          <div class="module-header-actions">
+            <button class="btn btn-teal" onclick="window.app.runAllTests()">
+              ▶ Run All Test Cases
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Card -->
+        <div id="test-summary-card" style="margin-bottom: 1.5rem;">
+          <div class="test-stat-box">
+            <div class="stat-number">9 Tests Ready</div>
+            <div class="stat-label">Click "▶ Run All Test Cases" to evaluate live execution</div>
+          </div>
+        </div>
+
+        <!-- Test Results Table -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🧪 Test Execution Log</span>
+            <span class="badge badge-primary">Dynamic Algorithmic Verification</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 90px;">Test ID</th>
+                  <th style="width: 180px;">Category & Name</th>
+                  <th>Test Input</th>
+                  <th>Expected Result</th>
+                  <th>Actual Result</th>
+                  <th style="width: 110px;">Status</th>
+                </tr>
+              </thead>
+              <tbody id="test-results-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 7: TEACHER'S VIVA GUIDE
+           ========================================== -->
+      <section id="tab-viva" class="tab-section">
+        <div class="module-header">
+          <div class="module-title-group">
+            <div class="module-badge-row">
+              <span class="badge badge-primary">Academic Viva Sheet</span>
+              <span class="badge badge-warning">High Score Cheat Sheet</span>
+            </div>
+            <h2 class="module-title">Teacher's Viva & Examiner Reference Guide</h2>
+            <p class="module-subtitle">
+              Comprehensive speaking scripts, anticipated questions, and core OS concepts for Vaishnavi Satone.
+            </p>
+          </div>
+        </div>
+
+        <!-- Project Intro Card -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🎙️ 2-Minute Project Elevator Pitch</span>
+          </div>
+          <div class="viva-script-box">
+            <p style="font-size: 1rem; line-height: 1.7; color: var(--text-primary);">
+              "Respected Examiner, my name is <strong>Vaishnavi Satone</strong> (UID: 24003164), 5th Semester Computer Engineering, Section B.<br>
+              My Operating Systems mini-project is titled <strong>'Railway Reservation System — OS Algorithm Visualizer'</strong>.<br>
+              The core goal of this web application is to demonstrate how four foundational Operating Systems concepts govern the backend of large-scale transactional platforms like Indian Railways (IRCTC):
+              <br>1. <strong>CPU Scheduling:</strong> Distributing CPU burst time fairly via Round Robin and prioritizing emergency payments via Priority Scheduling.
+              <br>2. <strong>Producer–Consumer Synchronization:</strong> Using Semaphores (Mutex, Empty, Full) to buffer booking requests and prevent race conditions or duplicate ticket allotment.
+              <br>3. <strong>Deadlock Avoidance using Banker’s Algorithm:</strong> Dynamically checking the Need Matrix and Available vectors to allocate booking slots, payment gateways, and SMS servers in a guaranteed Safe State.
+              <br>4. <strong>Memory Management:</strong> Placing seat layout caches and session tokens in server RAM partitions using First Fit and Best Fit while analyzing fragmentation."
+            </p>
+          </div>
+        </div>
+
+        <!-- Viva FAQ Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+          <!-- CPU Scheduling FAQs -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">⚡ CPU Scheduling FAQs</span>
+            </div>
+            <p><strong>Q1: What is the Convoy Effect?</strong><br>
+            A: In FCFS, when a long burst process occupies the CPU first, all short processes behind it suffer high waiting times. Round Robin solves this with time quantum preemption.</p>
+            <p style="margin-top: 0.75rem;"><strong>Q2: What is the optimal Time Quantum?</strong><br>
+            A: Around 80% of CPU bursts should be shorter than the time quantum. If too large, it degenerates to FCFS; if too small, context-switching overhead dominates.</p>
+            <p style="margin-top: 0.75rem;"><strong>Q3: How is Waiting Time calculated?</strong><br>
+            A: <code>TAT = Completion Time − Arrival Time</code>, and <code>Waiting Time = TAT − Burst Time</code>.</p>
+          </div>
+
+          <!-- Producer-Consumer FAQs -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🔄 Producer–Consumer FAQs</span>
+            </div>
+            <p><strong>Q1: What is a Race Condition?</strong><br>
+            A: A condition where multiple threads read and write shared data concurrently, and the final outcome depends on the uncontrollable timing of execution.</p>
+            <p style="margin-top: 0.75rem;"><strong>Q2: What is the difference between Mutex and Counting Semaphore?</strong><br>
+            A: A Mutex is a binary lock (0 or 1) with ownership, used for Mutual Exclusion. Counting Semaphores (Empty and Full) have integer values and track resource quantities.</p>
+            <p style="margin-top: 0.75rem;"><strong>Q3: What are wait() and signal() primitives?</strong><br>
+            A: <code>wait(S)</code> decrements S and blocks if S ≤ 0. <code>signal(S)</code> increments S and wakes up a sleeping thread.</p>
+          </div>
+
+          <!-- Banker's Algorithm FAQs -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🛡️ Banker's Algorithm FAQs</span>
+            </div>
+            <p><strong>Q1: Does an Unsafe State equal Deadlock?</strong><br>
+            A: <strong>NO.</strong> A safe state guarantees no deadlock. An unsafe state only means the system <em>cannot prevent</em> deadlock if all processes simultaneously claim their maximum requirements.</p>
+            <p style="margin-top: 0.75rem;"><strong>Q2: What are the 4 Coffman conditions for deadlock?</strong><br>
+            A: 1. Mutual Exclusion, 2. Hold and Wait, 3. No Preemption, 4. Circular Wait.</p>
+            <p style="margin-top: 0.75rem;"><strong>Q3: What is the formula for the Need matrix?</strong><br>
+            A: <code>Need[i][j] = Maximum[i][j] − Allocation[i][j]</code>.</p>
+          </div>
+
+          <!-- Memory Management FAQs -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">💾 Memory Management FAQs</span>
+            </div>
+            <p><strong>Q1: What is External Fragmentation?</strong><br>
+            A: Total free memory space is enough to satisfy a request, but it is split non-contiguously across multiple blocks, so no single block is big enough.</p>
+            <p style="margin-top: 0.75rem;"><strong>Q2: How does Best Fit differ from First Fit?</strong><br>
+            A: First Fit picks the first block that fits (fastest). Best Fit picks the smallest block that fits (leaves minimal leftover space, but can create tiny unusable external holes).</p>
+            <p style="margin-top: 0.75rem;"><strong>Q3: How do modern OS solve external fragmentation?</strong><br>
+            A: Through <strong>Paging</strong> (non-contiguous memory allocation with fixed-size page frames) and <strong>Compaction</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Generic Information & Speaking Script Modal -->
+  <div id="generic-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-title" style="font-size: 1.2rem;">Module Details</h3>
+        <button id="modal-close-btn" class="btn-icon" style="font-size: 1.25rem;">✕</button>
+      </div>
+      <div id="modal-body" class="modal-body">
+        <!-- Content injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/cpu-scheduler.js"></script>
+  <script src="js/producer-consumer.js"></script>
+  <script src="js/bankers-algo.js"></script>
+  <script src="js/memory-mgmt.js"></script>
+  <script src="js/test-suite.js"></script>
+  <script src="js/guided-demo.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
